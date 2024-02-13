@@ -17,20 +17,34 @@ export const routes: Routes = [
       },
       {
         path: 'user/:userId',
+        // loadChildren: () =>
+        //   import('./components/inbox/inbox.component').then(
+        //     (m) => m.InboxComponent
+        //   ),
         component: InboxComponent,
       },
       {
         path: 'no-user',
+        // loadChildren: () =>
+        //   import('./pages/no-user/no-user.component').then(
+        //     (m) => m.NoUserComponent
+        //   ),
         component: NoUserComponent,
       },
     ],
   },
   {
     path: 'login',
+    // loadChildren: () =>
+    //   import('./pages/login/login.component').then((m) => m.LoginComponent),
     component: LoginComponent,
   },
   {
     path: 'signup',
+    // loadChildren: () =>
+    //   import('./pages/sign-up/sign-up.component').then(
+    //     (m) => m.SignUpComponent
+    //   ),
     component: SignUpComponent,
   },
 ];
