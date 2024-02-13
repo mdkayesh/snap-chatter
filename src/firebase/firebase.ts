@@ -1,15 +1,16 @@
-import { FirebaseApp, initializeApp } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
+import { environment } from '../environments/environment';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCJti05FOIFqZqvRSIiHt3NxfO7-AiTvmY',
-  authDomain: 'snapchatter-ef514.firebaseapp.com',
-  projectId: 'snapchatter-ef514',
-  storageBucket: 'snapchatter-ef514.appspot.com',
-  messagingSenderId: '763523330818',
-  appId: '1:763523330818:web:05ddc6010b6c905c60c81b',
+  apiKey: environment.API_KEY,
+  authDomain: environment.AUTH_DOMAIN,
+  projectId: environment.PROJECT_ID,
+  storageBucket: environment.STORAGE_BUCKET,
+  messagingSenderId: environment.MESSAGING_SENDER_ID,
+  appId: environment.APP_ID,
 };
 
 // Initialize Firebase
