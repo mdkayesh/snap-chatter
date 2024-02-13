@@ -1,0 +1,56 @@
+<div class="inbox h-full flex flex-col">
+  <div class="border-b border-text-600 pb-2 sticky top-0 px-5 z-40">
+    <app-inbox-header [user]="user" />
+  </div>
+
+  <div class="grow overflow-auto p-5 scroll-hidden" #messageContainer>
+    <app-inbox-message
+      [user]="user"
+      class="flex flex-col gap-4"
+      [messageContainer]="messageContainer"
+    />
+
+    <!-- <div class="flex flex-col gap-4" *ngIf="!messages.length">
+      <div class="flex gap-2 w-full items-end">
+        <div
+          class="h-7 w-7 bg-bg-secondary-200 animate-pulse rounded-full"
+        ></div>
+
+        <div
+          class="flex-1 h-10 rounded-e-xl rounded-tl-xl max-w-[170px] bg-bg-secondary-200 animate-pulse"
+        ></div>
+      </div>
+      <div class="flex gap-2 w-full items-end flex-row-reverse self-end">
+        <div
+          class="h-7 w-7 bg-bg-secondary-200 animate-pulse rounded-full"
+        ></div>
+
+        <div
+          class="flex-1 h-10 rounded-e-xl rounded-tl-xl max-w-[120px] bg-bg-secondary-200 animate-pulse"
+        ></div>
+      </div>
+      <div class="flex gap-2 w-full items-end">
+        <div
+          class="h-7 w-7 bg-bg-secondary-200 animate-pulse rounded-full"
+        ></div>
+
+        <div
+          class="flex-1 h-10 rounded-e-xl rounded-tl-xl max-w-[170px] bg-bg-secondary-200 animate-pulse"
+        ></div>
+      </div>
+      <div class="flex gap-2 w-full items-end">
+        <div
+          class="h-7 w-7 bg-bg-secondary-200 animate-pulse rounded-full"
+        ></div>
+
+        <div
+          class="flex-1 h-10 rounded-e-xl rounded-tl-xl max-w-[170px] bg-bg-secondary-200 animate-pulse"
+        ></div>
+      </div>
+    </div> -->
+  </div>
+
+  <div class="px-5">
+    <app-inbox-footer [user]="user" [messageContainer]="messageContainer" />
+  </div>
+</div>

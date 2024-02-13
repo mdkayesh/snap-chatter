@@ -1,0 +1,80 @@
+<div class="h-screen w-full flex justify-center items-center p-6 flex-col">
+  <h1 class="text-xl sm:text-3xl md:text-4xl font-semibold text-center">
+    No conversations yet.
+  </h1>
+  <p class="text-center my-2 font-semibold">
+    Find your friends & Start Chatting 😃
+  </p>
+
+  <app-search
+    [searchTerm]="searchTerm"
+    (submitSearch)="(handleSubmit)"
+    class="mt-2"
+  />
+
+  <div
+    class="flex flex-col mt-4 max-h-[200px] overflow-auto w-full"
+    *ngIf="users"
+  >
+    <a
+      class="w-full block"
+      *ngFor="let user of users"
+      [routerLink]="['/user', user.uid]"
+    >
+      <div
+        class="user-cart flex gap-3 px-3 py-2 transition-colors rounded-lg hover:bg-bg-primary-200"
+        *ngIf="user.uid !== currentUser?.uid"
+      >
+        <div
+          class="img bg-blue-500 text-text-100 font-semibold text-xl min-h-8 min-w-8 w-10 h-10 aspect-square rounded-full flex justify-center items-center overflow-hidden"
+        >
+          <img
+            *ngIf="user?.photoURL; else elseBlock"
+            [src]="user?.photoURL"
+            [alt]="user?.displayName"
+            class="w-full h-full"
+          />
+          <ng-template #elseBlock class="w-full h-full">
+            {{ user?.displayName?.charAt(0) }}
+          </ng-template>
+        </div>
+
+        <div class="flex-1">
+          <div class="flex gap-2 justify-between">
+            <h2 class="line-clamp-1 text-sm md:text-base font-semibold">
+              {{ user.displayName }}
+            </h2>
+            <button
+              type="button"
+              class="btn secondary !text-[10px] !px-3 !py-1 whitespace-nowrap"
+            >
+              <span>Add <span class="hidden sm:inline">Friend</span></span>
+            </button>
+          </div>
+          <p class="text-xs sm:text-sm text-text-500 line-clamp-1">
+            {{ user.email ? user.email : "email is not provided." }}
+          </p>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- loader -->
+
+  <div *ngIf="!users" class="w-full">
+    <div class="flex gap-3 mt-3 w-full" *ngFor="let a of arr">
+      <div
+        class="h-12 w-12 bg-bg-secondary-100 animate-pulse rounded-full"
+      ></div>
+
+      <div class="flex-1 pt-1">
+        <div
+          class="w-full h-4 animate-pulse bg-bg-secondary-100 rounded-2xl max-w-[150px]"
+        ></div>
+        <div
+          class="w-full h-3 animate-pulse bg-bg-secondary-100 rounded-2xl max-w-[100px] mt-3"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>

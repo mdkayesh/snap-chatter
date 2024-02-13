@@ -1,0 +1,146 @@
+<div
+  class="left-sidebar flex flex-row h-full justify-between items-center sm:flex-col px-4 sm:py-6"
+  [ngClass]="hide ? 'hidden sm:flex' : 'py-3'"
+>
+  <div class="profile">
+    <button
+      type="button"
+      class="img bg-blue-500 text-white font-semibold text-xl h-8 w-8 rounded-full flex justify-center items-center overflow-hidden"
+      (click)="toggleModal()"
+    >
+      <img
+        *ngIf="currentUser?.photoURL; else elseBlock"
+        [src]="previewUrl || currentUser?.photoURL"
+        [alt]="currentUser?.displayName"
+      />
+      <ng-template #elseBlock>
+        {{ currentUser?.displayName?.charAt(0) }}
+      </ng-template>
+    </button>
+
+    <app-modal [isOpenModal]="isOpenModal" [close]="toggleModal">
+      <div class="flex justify-center flex-col items-center w-full">
+        <label
+          for="photoURL"
+          class="cursor-pointer group relative overflow-hidden"
+        >
+          <div
+            class="absolute inset-0 flex justify-center items-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <img src="./assets/camera.svg" alt="camera" class="w-8" />
+          </div>
+          <div
+            class="img bg-blue-500 text-white font-semibold text-2xl h-[80px] w-[80px] rounded-full flex justify-center items-center overflow-hidden"
+          >
+            <img
+              *ngIf="currentUser?.photoURL; else elseBlock"
+              [src]="previewUrl || currentUser?.photoURL"
+              [alt]="currentUser?.displayName"
+              class="w-full h-full"
+            />
+            <ng-template #elseBlock>
+              {{ currentUser?.displayName?.charAt(0) }}
+            </ng-template>
+            <input
+              type="file"
+              name="photoURL"
+              id="photoURL"
+              class="hidden"
+              (change)="onImageUpload($event)"
+            />
+          </div>
+        </label>
+
+        <div class="relative group mt-4">
+          <h3
+            class="text-center text-text-100 font-semibold text-2xl focus-within:outline outline-2 outline-primary-100 px-3"
+            id="userName"
+            maxLength="100"
+            #userName
+            (blur)="handleBlur(userName)"
+            (keyup)="onKeyUp(userName, 'displayName')"
+          >
+            {{ currentUser?.displayName }}
+          </h3>
+          <button
+            type="button"
+            class="absolute top-1/2 -translate-y-1/2 -left-6 opacity-0 transition-all duration-300 group-hover:opacity-100"
+            (click)="handleEditable(userName)"
+          >
+            <img src="./assets/edit.svg" alt="edit" />
+          </button>
+        </div>
+
+        <!-- email -->
+        <div class="relative group mt-1">
+          <p
+            class="text-text-500 text-sm font-semibold focus-within:outline outline-2 outline-primary-100 px-3"
+            id="email"
+            #email
+            (blur)="handleBlur(email)"
+            (keyup)="onKeyUp(email, 'email')"
+          >
+            {{
+              currentUser?.email
+                ? currentUser?.email
+                : "No email address is provided"
+            }}
+          </p>
+
+          <button
+            type="button"
+            class="absolute top-1/2 -translate-y-1/2 -left-6 opacity-0 transition-all duration-300 group-hover:opacity-100"
+            (click)="handleEditable(email)"
+          >
+            <img src="./assets/edit.svg" alt="edit" />
+          </button>
+        </div>
+      </div>
+
+      <div class="flex mt-4 justify-between items-center">
+        <button
+          type="button"
+          class="btn font-semibold uppercase disabled:opacity-50 disabled:cursor-not-allowed"
+          (click)="handleConfirmLogout()"
+        >
+          Logout
+        </button>
+        <button
+          type="button"
+          class="btn font-semibold uppercase disabled:opacity-50 disabled:cursor-not-allowed"
+          [disabled]="!isEdited"
+          (click)="updateUserInfo()"
+        >
+          {{ isLoading ? "Updating" : "Update" }}
+        </button>
+      </div>
+    </app-modal>
+
+    <app-modal [isOpenModal]="isConfirm" [close]="handleConfirmLogout">
+      <div class="flex flex-col justify-center items-center gap-4">
+        <h2 class="text-2xl font-semibold text-center">
+          Are you sure to logout?
+        </h2>
+        <div class="flex justify-center items-center gap-5">
+          <button
+            type="button"
+            class="btn font-semibold uppercase disabled:opacity-50 disabled:cursor-not-allowed"
+            (click)="isConfirm = false"
+          >
+            No
+          </button>
+
+          <button
+            type="button"
+            class="btn secondary font-semibold uppercase disabled:opacity-50 disabled:cursor-not-allowed"
+            (click)="logOut()"
+          >
+            <span>Ok</span>
+          </button>
+        </div>
+      </div>
+    </app-modal>
+  </div>
+
+  <app-find-friends />
+</div>

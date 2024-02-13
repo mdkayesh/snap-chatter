@@ -1,0 +1,123 @@
+<form
+  class="rounded-3xl bg-bg-secondary-200 flex gap-2 pl-5 items-center w-full"
+  (submit)="onSubmit()"
+  *ngIf="!isBlockedByMe && !isBlockedByOther"
+>
+  <div class="flex gap-2 items-center">
+    <div class="relative">
+      <div
+        class="absolute -top-full translate-y-[-110px] flex gap-2"
+        *ngIf="previewUrls.length"
+      >
+        <div class="relative" *ngFor="let previewUrl of previewUrls">
+          <button
+            type="button"
+            (click)="removeImage(previewUrl)"
+            class="w-full flex justify-end"
+          >
+            <img src="./assets/xmark.svg" alt="close" class="w-4 pb-1" />
+          </button>
+          <img
+            [src]="previewUrl"
+            alt="image"
+            class="max-w-[100px] rounded-md"
+          />
+        </div>
+      </div>
+      <label for="inbox-img" class="cursor-pointer">
+        <img
+          src="./assets/attachment.svg"
+          alt="attachment"
+          class="min-w-3 w-3"
+        />
+
+        <input
+          type="file"
+          name="image"
+          id="inbox-img"
+          class="hidden"
+          multiple
+          (change)="onImageUpload($event)"
+        />
+      </label>
+    </div>
+    <div class="relative pt-1">
+      <div
+        class="absolute top-0 -translate-y-[102%] left-0 -translate-x-10"
+        [appOutSideClick]="toggle"
+        (outSideClick)="toggle = false"
+        *ngIf="toggle"
+      >
+        <emoji-mart
+          set="apple"
+          (emojiSelect)="selectImoji($event)"
+          [style]="{
+            width: '300px',
+            height: '300px',
+            overflow: 'hidden',
+          }"
+          [showPreview]="false"
+        ></emoji-mart>
+      </div>
+      <button type="button" (click)="toggle = !toggle">
+        <img src="./assets/smile.svg" alt="attachment" class="min-w-4 w-4" />
+      </button>
+    </div>
+  </div>
+  <div class="flex-1 bg-transparent">
+    <input
+      type="text"
+      name="Write a message"
+      id="message"
+      placeholder="Write a message"
+      class="py-2.5 px-2 rounded-3xl border-none outline-none w-full bg-transparent"
+      [(ngModel)]="textMessage"
+    />
+  </div>
+
+  <button
+    type="submit"
+    class="rounded-lg fill-text-500 flex justify-center items-center p-3"
+    [ngClass]="
+      textMessage.trim() || previewUrls.length > 0
+        ? 'bg-primary-100 text-text-100'
+        : ''
+    "
+    [ngClass]="{ 'animate-pulse': isLoading }"
+  >
+    <svg
+      width="29"
+      height="18"
+      viewBox="0 0 39 28"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M38.6713 1.4381C38.9198 1.89048 38.902 2.32942 38.6179 2.75491L21.8162 27.0566C21.6029 27.3615 21.2986 27.5329 20.9034 27.5706C20.7001 27.5868 20.5012 27.5491 20.3066 27.4576C20.1807 27.3983 20.0568 27.3051 19.935 27.1779L13.6523 20.3428L7.11497 23.4526C6.78511 23.6189 6.44278 23.6186 6.08798 23.4516C5.9392 23.3816 5.82407 23.2995 5.7426 23.2053C5.56284 23.0229 5.45158 22.8063 5.40881 22.5555C5.36604 22.3047 5.39851 22.0649 5.5062 21.836L8.32518 15.8445L31.7118 4.64279L5.88818 11.8882L0.415505 5.9165C0.0674256 5.55703 -0.0133919 5.13459 0.173052 4.64919C0.365557 4.18061 0.707532 3.92914 1.19898 3.89477L37.5201 0.854506C37.7402 0.832275 37.9476 0.86693 38.1421 0.958472C38.371 1.06617 38.5474 1.22605 38.6713 1.4381Z"
+      />
+    </svg>
+  </button>
+</form>
+
+<div
+  class="isBlock pt-4 px-4 border-t border-t-text-500 w-full flex justify-center items-center"
+  *ngIf="isBlockedByMe"
+>
+  <div class="flex flex-col items-center">
+    <p class="text-center">The user has been blocked!</p>
+    <button type="button" class="btn secondary mt-2" (click)="unBlock()">
+      <span>Unblock</span>
+    </button>
+  </div>
+</div>
+
+<div
+  class="isBlock pt-4 px-4 border-t border-t-text-500 w-full flex justify-center items-center"
+  *ngIf="isBlockedByOther"
+>
+  <div class="flex flex-col items-center">
+    <p class="text-center">
+      {{ user?.displayName }} is blocked you! So, you can't send message.
+    </p>
+  </div>
+</div>

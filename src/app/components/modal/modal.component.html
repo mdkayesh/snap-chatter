@@ -1,0 +1,15 @@
+<div
+  class="modal-container fixed inset-0 flex items-center justify-center z-50 p-5"
+  *ngIf="isOpenModal"
+  @fadeUp
+>
+  <div
+    class="modal-overlay fixed inset-0 z-40 backdrop-blur-sm bg-black/50"
+    (click)="close()"
+  ></div>
+  <div
+    class="modal-content p-5 md:p-8 rounded-lg shadow-md relative z-50 bg-bg-secondary-200 w-full max-w-sm max-h-full overflow-auto"
+  >
+    <ng-content></ng-content>
+  </div>
+</div>

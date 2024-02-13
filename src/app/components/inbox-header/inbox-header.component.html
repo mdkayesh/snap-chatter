@@ -1,0 +1,78 @@
+<div class="flex justify-between items-center pt-3 sm:pt-0" *ngIf="user">
+  <div class="flex gap-4">
+    <div
+      class="img bg-blue-500 text-text-100 font-semibold text-xl min-h-8 min-w-8 w-10 h-10 aspect-square rounded-full flex justify-center items-center overflow-hidden"
+    >
+      <img
+        *ngIf="user.photoURL; else elseBlock"
+        [src]="user.photoURL"
+        [alt]="user.displayName"
+        class="w-full h-full"
+      />
+      <ng-template #elseBlock class="w-full h-full">
+        {{ user.displayName?.charAt(0) }}
+      </ng-template>
+    </div>
+
+    <div>
+      <h3 class="font-semibold">{{ user.displayName }}</h3>
+      <p class="text-sm font-semibold text-text-500">
+        {{ user.isOnline ? "Online" : "Offline" }}
+      </p>
+    </div>
+  </div>
+
+  <!-- dropdown -->
+  <div class="relative">
+    <button
+      type="button"
+      (click)="isOpen = !isOpen"
+      class="p-2 rounded-full hover:bg-bg-primary-200"
+      [ngClass]="{ 'bg-bg-primary-200': isOpen }"
+    >
+      <img src="./assets/kebab.svg" alt="menu" />
+    </button>
+
+    <div
+      class="dropdown absolute top-full left-0 -translate-x-full w-fit bg-bg-primary-200"
+      [appOutSideClick]="isOpen"
+      (outSideClick)="onOutSideClick()"
+      *ngIf="isOpen"
+      @fadeUp
+    >
+      <ul>
+        <li>
+          <button
+            type="button"
+            class="px-4 py-2 whitespace-nowrap hover:bg-bg-secondary-200 block w-full text-left"
+            (click)="handleDeleteConversation()"
+          >
+            Delete Conversation
+          </button>
+        </li>
+        <li>
+          <button
+            type="button"
+            class="px-4 py-2 whitespace-nowrap hover:bg-bg-secondary-200 block w-full text-left"
+            (click)="blockUser()"
+          >
+            Block User
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!user" class="flex gap-4 pt-3 sm:pt-0">
+  <div class="h-12 w-12 bg-bg-secondary-200 animate-pulse rounded-full"></div>
+
+  <div class="flex-1 pt-1">
+    <div
+      class="w-full h-4 animate-pulse bg-bg-secondary-200 rounded-2xl max-w-[150px]"
+    ></div>
+    <div
+      class="w-full h-3 animate-pulse bg-bg-secondary-200 rounded-2xl max-w-[100px] mt-3"
+    ></div>
+  </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="find-friends">
+  <button
+    type="button"
+    class="img bg-primary-100 text-text-100 font-semibold text-2xl h-8 w-8 rounded-full flex justify-center items-center overflow-hidden"
+    (click)="toggleModal()"
+  >
+    +
+  </button>
+
+  <app-modal [isOpenModal]="isOpenModal" [close]="toggleModal">
+    <app-search [searchTerm]="searchTerm" (submitSearch)="(handleSubmit)" />
+
+    <div class="flex flex-col mt-4 max-h-[200px] overflow-auto" *ngIf="users">
+      <a
+        class=""
+        *ngFor="let user of users"
+        [routerLink]="['/user', user.uid]"
+        (click)="handleSelectedLink('/user/' + user.uid)"
+      >
+        <div
+          class="user-cart flex gap-3 px-3 py-2 transition-colors rounded-lg hover:bg-bg-primary-200"
+          *ngIf="user.uid !== currentUser?.uid"
+        >
+          <div
+            class="img bg-blue-500 text-text-100 font-semibold text-xl min-h-8 min-w-8 w-10 h-10 aspect-square rounded-full flex justify-center items-center overflow-hidden"
+          >
+            <img
+              *ngIf="user?.photoURL; else elseBlock"
+              [src]="user?.photoURL"
+              [alt]="user?.displayName"
+              class="w-full h-full"
+            />
+            <ng-template #elseBlock class="w-full h-full">
+              {{ user?.displayName?.charAt(0) }}
+            </ng-template>
+          </div>
+
+          <div class="flex-1">
+            <div class="flex gap-2 justify-between">
+              <h2 class="line-clamp-1 text-sm md:text-base font-semibold">
+                {{ user.displayName }}
+              </h2>
+            </div>
+            <p class="text-xs sm:text-sm text-text-500 line-clamp-1">
+              {{ user.email ? user.email : "email is not provided." }}
+            </p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- loader -->
+
+    <div *ngIf="!users">
+      <div class="flex gap-3 mt-3 w-full" *ngFor="let a of arr">
+        <div
+          class="h-12 w-12 bg-bg-secondary-100 animate-pulse rounded-full"
+        ></div>
+
+        <div class="flex-1 pt-1">
+          <div
+            class="w-full h-4 animate-pulse bg-bg-secondary-100 rounded-2xl max-w-[150px]"
+          ></div>
+          <div
+            class="w-full h-3 animate-pulse bg-bg-secondary-100 rounded-2xl max-w-[100px] mt-3"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </app-modal>
+</div>

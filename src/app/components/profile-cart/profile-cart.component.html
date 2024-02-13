@@ -1,0 +1,51 @@
+<a
+  class="profile-cart hover:bg-bg-secondary-200 p-2 rounded-xl transition-colors duration-300 block"
+  [ngClass]="rla.isActive ? 'bg-bg-secondary-200' : ''"
+  routerLinkActive
+  [routerLink]="['/user', user.uid]"
+  #rla="routerLinkActive"
+  (click)="handleSelectedLink('/user/' + user.uid)"
+>
+  <div class="flex gap-3">
+    <div
+      class="img bg-blue-500 text-text-100 font-semibold text-xl min-h-8 min-w-8 w-12 h-12 aspect-square rounded-full flex justify-center items-center overflow-hidden"
+    >
+      <img
+        *ngIf="user?.photoURL; else elseBlock"
+        [src]="user.photoURL"
+        [alt]="user.displayName"
+        class="w-full h-full"
+      />
+      <ng-template #elseBlock class="w-full h-full">
+        {{ user.displayName?.charAt(0) }}
+      </ng-template>
+    </div>
+    <div class="content flex-1">
+      <div class="flex justify-between items-center gap-2">
+        <h1
+          class="text-text-100 font-[500] line-clamp-1"
+          [ngClass]="{ 'font-semibold': isRead }"
+        >
+          {{ user.displayName }}
+        </h1>
+        <p class="text-xs whitespace-nowrap font-semibold text-text-500">
+          {{ fromNow(user.lastMessage.date) }}
+        </p>
+      </div>
+      <div class="flex justify-between items-center gap-2">
+        <p
+          class="text-sm line-clamp-1"
+          [ngClass]="
+            isRead ? 'text-text-100 font-semibold' : 'font-normal text-text-500'
+          "
+        >
+          <span *ngIf="self">You:</span> {{ user.lastMessage.text }}
+        </p>
+        <div
+          class="read min-h-2.5 min-w-2.5 bg-primary-100 rounded-full"
+          *ngIf="isRead"
+        ></div>
+      </div>
+    </div>
+  </div>
+</a>

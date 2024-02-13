@@ -1,0 +1,37 @@
+<div class="chats h-full">
+  <div class="sticky top-0 bg-bg-secondary-100 pt-6 z-10">
+    <app-search
+      [searchTerm]="searchTerm"
+      (searchTermChange)="onChange($event)"
+    />
+  </div>
+  <div class="profiles flex flex-col gap-1 mt-4">
+    <div *ngFor="let user of filteredUsers" @scaleUp>
+      <app-profile-cart [user]="user" *ngIf="users" />
+    </div>
+    <div
+      *ngIf="!users && !isLoading"
+      class="pt-32 text-2xl font-semibold flex justify-center items-center"
+    >
+      No conversations
+    </div>
+
+    <!-- loader -->
+    <div *ngIf="isLoading">
+      <div class="flex gap-3 mt-3" *ngFor="let a of arr">
+        <div
+          class="h-12 w-12 bg-bg-secondary-200 animate-pulse rounded-full"
+        ></div>
+
+        <div class="flex-1 pt-1">
+          <div
+            class="w-full h-4 animate-pulse bg-bg-secondary-200 rounded-2xl max-w-[150px]"
+          ></div>
+          <div
+            class="w-full h-3 animate-pulse bg-bg-secondary-200 rounded-2xl max-w-[100px] mt-3"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

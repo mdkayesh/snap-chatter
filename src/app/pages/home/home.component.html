@@ -1,0 +1,27 @@
+<div
+  class="home flex h-screen overflow-hidden flex-col sm:flex-row"
+  *ngIf="user; else elseBlock"
+>
+  <div class="min-w-[50px] sm:h-full">
+    <app-left-sidebar />
+  </div>
+  <div
+    class="w-full sm:max-w-[320px] bg-bg-secondary-100 pb-6 px-3 h-full overflow-auto scroll-hidden"
+  >
+    <div *ngIf="isDesktop; else mobileRoute">
+      <app-chats />
+    </div>
+    <ng-template #mobileRoute>
+      <router-outlet />
+    </ng-template>
+  </div>
+
+  <div class="flex-1 py-6 h-full" *ngIf="isDesktop">
+    <router-outlet />
+  </div>
+</div>
+
+<!-- loading -->
+<ng-template #elseBlock>
+  <div class="loading">loading</div>
+</ng-template>
